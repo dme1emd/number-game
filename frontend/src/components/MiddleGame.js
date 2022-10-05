@@ -7,18 +7,18 @@ export const MiddleGame = () => {
     const compare =(string1 , string2)=>{
         var numbers = 0
         var positions = 0
-        string1.array.forEach((element,index)=> {
-            string2.forEach((element2 , index2)=>{
-                if(element == element2){
+        for(var i = 0 ; i<string1.length ; i++){
+            for(var j = 0 ; j<string2.length ; j++)
+                if(string1[i] == string2[j]){
                     numbers++
-                    if(index == index2){
+                    if(i == j){
                         positions ++
                     }
                 }
-            })
-        });
+        };
         return [numbers , positions]
     }
+    console.log(compare('1234' , '1253')[0])
   return (
     (numberOne && numberTwo) ? 
     <div>
@@ -30,19 +30,21 @@ export const MiddleGame = () => {
         }
         <ul className='player-guess player-one'>
             {playerOneGuess.length ? playerOneGuess.map(
-                (guess)=>{
-                    <div>
-                        {compare(numberTwo , guess)[0] - compare(numberTwo , guess)[1]}
+                (guess , index)=>{
+                    return(
+                    <div key={`guess-${index}-player-one`} className='guess-result player-one'>
+                        {`${compare(numberTwo , guess)[0]} - ${compare(numberTwo , guess)[1]}`}
                     </div>
+                    )
                 }
             ):''}
         </ul>
         <ul className='player-guess player-two'>
-            {playerTwoGuess.length ? playerTwoGuess.map(
-                (guess)=>{
-                    <div>
-                        {compare(numberOne , guess)[0] - compare(numberOne , guess)[1]}
-                    </div>
+            {playerTwoGuess.length> 0? playerTwoGuess.map(
+                (guess , index)=>{return(
+                    <div key={`guess-${index}-player-two`} className='guess-result player-two'>
+                        {`${compare(numberOne , guess)[0]} - ${compare(numberOne , guess)[1]}`}
+                    </div>)
                 }
             ):''
             }

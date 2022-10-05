@@ -40,11 +40,11 @@ export const MagicInput = ({guess , player}) => {
         if(number.length == 4){
             console.log('ok .. ')
             if(player == 1){
-                setPlayerOneGuess(...playerOneGuess , number)
+                setPlayerOneGuess([...playerOneGuess , number])
                 console.log(playerOneGuess)
                 setTurn(2)
             }else{
-                setPlayerTwoGuess(...playerTwoGuess ,number)
+                setPlayerTwoGuess([...playerTwoGuess ,number])
                 setTurn(1)
             }
         }
