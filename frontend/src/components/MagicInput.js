@@ -4,7 +4,8 @@ import GameContext from './Context/GameContext'
 export const MagicInput = ({guess , player}) => {
     const [number , setNumber] = useState('')
     const [message , setMessage] = useState(false)
-    const {setNumberOne ,setNumberTwo , setNumOneOk,setNumTwoOk,setPlayerOneGuess , setPlayerTwoGuess ,playerOneGuess,playerTwoGuess,turn,setTurn}= useContext(GameContext)
+    const {numberOne , numberTwo, setEndGame,setNumberOne ,setNumberTwo , setNumOneOk,setNumTwoOk,setPlayerOneGuess , setPlayerTwoGuess ,playerOneGuess,playerTwoGuess,turn,setTurn , playerOne ,playerTwo}= useContext(GameContext)
+
     const handleChange = (e)=>{
         if(e.target.value[e.target.value.length-1]>'9' || e.target.value[e.target.value.length-1]<'0'){
             setMessage('only digits accepted') 
@@ -26,7 +27,7 @@ export const MagicInput = ({guess , player}) => {
         if (number.length == 4){
             if(player == 1){
                 setNumOneOk(true)
-                setNumberOne(number) 
+                setNumberOne(number)
             }
             else{
                 setNumTwoOk(true)
@@ -36,23 +37,27 @@ export const MagicInput = ({guess , player}) => {
     }
     const makeGuess = (e)=>{
         e.preventDefault()
-        console.log('guessing .. ')
         if(number.length == 4){
-            console.log('ok .. ')
+            console.log()
             if(player == 1){
+                if(numberTwo === number){
+                    setEndGame(true)
+                }
                 setPlayerOneGuess([...playerOneGuess , number])
-                console.log(playerOneGuess)
                 setTurn(2)
             }else{
+                if(numberOne === number){
+                    setEndGame(true)
+                }
                 setPlayerTwoGuess([...playerTwoGuess ,number])
                 setTurn(1)
             }
         }
     }
   return (
-    <div className='game'>
+    <div>
         <form>
-            <input type='text' className='input-guess' onChange={handleChange} value={number} placeholder={`${guess ? 'make a guess' : 'chose a number'}`}/>
+            <input type='text' className='input-guess' onChange={handleChange} value={number} placeholder={`${guess ? `${turn == 1 ? playerOne : playerTwo}` : 'chose a number'}`}/>
             <button onClick={guess ? makeGuess:confirm}>
                 confirm !
             </button>
