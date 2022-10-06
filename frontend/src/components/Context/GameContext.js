@@ -11,6 +11,7 @@ export const GameProvider = ({children}) => {
     const [playerOneGuess ,setPlayerOneGuess] = useState([])
     const [playerTwoGuess , setPlayerTwoGuess] = useState([])
     const [turn , setTurn] = useState([])
+    const [endGame , setEndGame] = useState(false)
   return (
     <GameContext.Provider value={{
         playerOne ,
@@ -30,7 +31,9 @@ export const GameProvider = ({children}) => {
         setPlayerOneGuess,
         setPlayerTwoGuess,
         turn,
-        setTurn
+        setTurn , 
+        endGame , 
+        setEndGame
     }}>
         {children}
     </GameContext.Provider>

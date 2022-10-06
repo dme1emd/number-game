@@ -1,0 +1,73 @@
+.guesses-container{
+  display: flex;
+  justify-content: space-around;
+  width: 100vw;
+}
+.separator{
+  height:100vh;
+  width: 3px;
+  background-color: black;
+}
+.guess-container{
+  display: flex;
+  flex-direction: column;
+  height: 50px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px 0;
+}
+form{
+  margin:10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+form input.input-guess{
+  max-width: 200px;
+  width: 40vw;
+  margin:0 calc(50vw -100px);
+  padding: 8px 5px;
+  font-size: 1.2em;
+}
+form button{
+  padding: 7px 6px;
+  font-size: 1.1em;
+  background-color: transparent;
+  border: 1px black solid;
+  margin: 10px 0;
+}
+.pseudo-input{
+  max-width: 200px;
+  width: 40vw;
+  margin:0 calc(50vw -100px);
+  padding: 8px 5px;
+  font-size: 1.2em;
+}
+.game-begin-container{
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+.game-begin-container>{
+  margin: 10px 0;
+}
+.end-game .menu{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.end-game .menu button{
+  margin: 10px 0;
+  padding: 7px 6px;
+  max-width: 200px;
+  width: 40vw;
+  font-size:1.1em;
+}
+.end-game .menu .winner{
+  font-size: 2em;
+  text-transform: capitalize;
+}

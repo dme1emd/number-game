@@ -6,19 +6,19 @@ export const GameBegining = () => {
     const [pseudoTwo , setPseudoTwo] = useState('')
     const [displayInputOne , setDisplatInputOne] = useState(true)
     const [displayInpuTwo , setDisplatInpuTwo] = useState(false)
-    const {setPlayerOne , setPlayerTwo , setNumberOne , setNumberTwo ,numTwoOk,numOneOk}=useContext(GameContext)
+    const {setPlayerOne , setPlayerTwo , setNumberOne , setNumberTwo ,numTwoOk,numOneOk , playerOne , playerTwo}=useContext(GameContext)
   return (
     <div>
        {
         !numOneOk ? 
-       <div>
-            <input type='text' onChange={(e)=>{setPseudoOne(e.target.value)}} placeholder='pseudo for the game' value={pseudoOne}/>
+       <div className='game-begin-container'>
+            <input type='text' onChange={(e)=>{setPlayerOne(e.target.value)} } placeholder='pseudo for the game' value={playerOne} className='pseudo-input'/>
             <MagicInput key='ask-value-one' player={1}/>
         </div>
         :
         !numTwoOk ?
-        <div>
-            <input type='text' onChange={(e)=>{setPseudoTwo(e.target.value)}} placeholder='pseudo for the game' value={pseudoTwo}/>
+        <div className='game-begin-container'>
+            <input type='text' onChange={(e)=>{setPlayerTwo(e.target.value)}} placeholder='pseudo for the game' value={playerTwo} className='pseudo-input'/>
             <MagicInput key='ask-value-two' player={2}/>
         </div>
         :
