@@ -71,3 +71,44 @@ form button{
   font-size: 2em;
   text-transform: capitalize;
 }
+.main-menu{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 50vh;
+  width: 30vw;
+  align-items: center;
+  margin:15vh 35vw;
+  padding:50px;
+  border:1px black solid;
+}
+.main-menu button {
+  padding: 7px 6px;
+  font-size:1.1em;
+  background-color: transparent;
+  border: 1px solid black;
+  width: 40vw;
+  max-width: 200px;
+  justify-content: center;
+  margin: 10px 0;
+}
+.rules-container{
+  width: 60vw;
+  height: 60vh;
+  margin:20vh 20vw;
+}
+.rules-container{
+  border: 1px black solid;
+}
+.rules-container ul{
+  display:flex;
+  flex-direction: column;
+  font-size: .9em;
+}
+.rules-container ul li{
+  list-style:none;
+  margin: 5px 3px;
+}
+.rules-container h1{
+  margin: 0 30px;
+}

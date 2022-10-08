@@ -4,7 +4,7 @@ import GameContext from './Context/GameContext'
 export const MagicInput = ({guess , player}) => {
     const [number , setNumber] = useState('')
     const [message , setMessage] = useState(false)
-    const {numberOne , numberTwo, setEndGame,setNumberOne ,setNumberTwo , setNumOneOk,setNumTwoOk,setPlayerOneGuess , setPlayerTwoGuess ,playerOneGuess,playerTwoGuess,turn,setTurn , playerOne ,playerTwo}= useContext(GameContext)
+    const {numberOne , numberTwo, setOfEndGame,setNumberOne ,setNumberTwo , setNumOneOk,setNumTwoOk,setPlayerOneGuess , setPlayerTwoGuess ,playerOneGuess,playerTwoGuess,turn,setTurn , playerOne ,playerTwo}= useContext(GameContext)
 
     const handleChange = (e)=>{
         if(e.target.value[e.target.value.length-1]>'9' || e.target.value[e.target.value.length-1]<'0'){
@@ -41,13 +41,13 @@ export const MagicInput = ({guess , player}) => {
             console.log()
             if(player == 1){
                 if(numberTwo === number){
-                    setEndGame(true)
+                    setOfEndGame(true)
                 }
                 setPlayerOneGuess([...playerOneGuess , number])
                 setTurn(2)
             }else{
                 if(numberOne === number){
-                    setEndGame(true)
+                    setOfEndGame(true)
                 }
                 setPlayerTwoGuess([...playerTwoGuess ,number])
                 setTurn(1)
