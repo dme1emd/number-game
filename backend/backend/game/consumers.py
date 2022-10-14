@@ -21,6 +21,7 @@ class GameConsumer(AsyncConsumer):
     async def websocket_receive(self, event):
         data_dict = json.loads(event.get('text'))
         guess = data_dict.get('text')
+        print(event)
         await self.channel_layer.group_send(
             self.chat_room,
             {

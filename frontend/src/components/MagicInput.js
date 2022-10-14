@@ -1,11 +1,13 @@
 import React, { Children, useContext, useState } from 'react'
 import GameContext from './Context/GameContext'
+import OnlineGameContext from './Context/OnlineGameContext'
 
-export const MagicInput = ({guess , player}) => {
+export const MagicInput = ({guess , player , online}) => {
     const [number , setNumber] = useState('')
     const [message , setMessage] = useState(false)
-    const {numberOne , numberTwo, setOfEndGame,setNumberOne ,setNumberTwo , setNumOneOk,setNumTwoOk,setPlayerOneGuess , setPlayerTwoGuess ,playerOneGuess,playerTwoGuess,turn,setTurn , playerOne ,playerTwo}= useContext(GameContext)
-
+    const [showOnline , setShowOnline] = useState(true)
+    const {setShow,numberOne , numberTwo, setOfEndGame,setNumberOne ,setNumberTwo , setNumOneOk,setNumTwoOk,setPlayerOneGuess , setPlayerTwoGuess ,playerOneGuess,playerTwoGuess,turn,setTurn , playerOne ,playerTwo}= useContext(GameContext)
+    const {socket} = useContext(OnlineGameContext)
     const handleChange = (e)=>{
         if(e.target.value[e.target.value.length-1]>'9' || e.target.value[e.target.value.length-1]<'0'){
             setMessage('only digits accepted') 
@@ -23,8 +25,7 @@ export const MagicInput = ({guess , player}) => {
     }
     const confirm = (e)=>{
         e.preventDefault()
-        console.log(number.length)
-        if (number.length == 4){
+        if (number.length == 4 && !online){
             if(player == 1){
                 setNumOneOk(true)
                 setNumberOne(number)
@@ -33,12 +34,16 @@ export const MagicInput = ({guess , player}) => {
                 setNumTwoOk(true)
                 setNumberTwo(number) 
             }
+            return
+        }
+        if (number.length == 4){
+            setNumberOne(number)
+            setShow(false)
         }
     }
     const makeGuess = (e)=>{
         e.preventDefault()
         if(number.length == 4){
-            console.log()
             if(player == 1){
                 if(numberTwo === number){
                     setOfEndGame(true)
@@ -54,11 +59,30 @@ export const MagicInput = ({guess , player}) => {
             }
         }
     }
+    const OnlineGuess = (e)=>{
+        e.preventDefault()
+        if(number.length == 4){
+            socket.send({
+                type:'make-guess',
+                number : number
+            })
+            if(numberTwo === number){
+                    setOfEndGame(true)
+                }
+            setPlayerOneGuess([...playerOneGuess , number])
+            setTurn(turn == 1 ? 2 : 1)
+        }
+        socket.send({
+            'type':'make_guess',
+            'player':player,
+            'guess' : number
+        })
+    }
   return (
     <div>
         <form>
             <input type='text' className='input-guess' onChange={handleChange} value={number} placeholder={`${guess ? `${turn == 1 ? playerOne : playerTwo}` : 'chose a number'}`}/>
-            <button onClick={guess ? makeGuess:confirm}>
+            <button onClick={guess ?online? OnlineGuess:makeGuess:confirm}>
                 confirm !
             </button>
             {message ? <div className='message-error'>{message}</div> : ''}
