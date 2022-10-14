@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import GameContext from './Context/GameContext'
 import { Guess } from './Guess'
 import { MagicInput } from './MagicInput'
-export const MiddleGame = () => {
-    const {turn , setTurn , numberOne ,numberTwo,playerOneGuess , playerTwoGuess} = useContext(GameContext)
+export const MiddleGame = ({online}) => {
+    const { player,turn , setTurn , numberOne ,numberTwo,playerOneGuess , playerTwoGuess} = useContext(GameContext)
     const compare =(string1 , string2)=>{
         var numbers = 0
         var positions = 0
@@ -18,15 +18,18 @@ export const MiddleGame = () => {
         };
         return [numbers , positions]
     }
-    console.log(compare('1234' , '1253')[0])
   return (
-    (numberOne && numberTwo) ? 
+    ((player ===1 &&numberOne) || (player===2 &&numberTwo)) ? 
     <div>
-        {
+        {   !online ?
             turn == 1? 
             <MagicInput className='guess-input player-one' player={turn} guess={true} key='player-one-guess'/>
             :
             <MagicInput className = 'guess-input player-two' player={turn} guess={true} key='player-two-guess'/>
+            :
+            turn != player ? //modify the operator != to === after being sure e.t work
+            <MagicInput online={true} guess={true}/>:
+            ''
         }
         <div className='guesses-container'>
             <ul className='player-guess player-one'>
