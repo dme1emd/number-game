@@ -6,7 +6,7 @@ export const MagicInput = ({guess , player , online}) => {
     const [number , setNumber] = useState('')
     const [message , setMessage] = useState(false)
     const [showOnline , setShowOnline] = useState(true)
-    const {setShow,numberOne , numberTwo, setOfEndGame,setNumberOne ,setNumberTwo , setNumOneOk,setNumTwoOk,setPlayerOneGuess , setPlayerTwoGuess ,playerOneGuess,playerTwoGuess,turn,setTurn , playerOne ,playerTwo}= useContext(GameContext)
+    const {localPlayer,setShow,numberOne , numberTwo, setOfEndGame,setNumberOne ,setNumberTwo , setNumOneOk,setNumTwoOk,setPlayerOneGuess , setPlayerTwoGuess ,playerOneGuess,playerTwoGuess,turn,setTurn , playerOne ,playerTwo}= useContext(GameContext)
     const {socket} = useContext(OnlineGameContext)
     const handleChange = (e)=>{
         if(e.target.value[e.target.value.length-1]>'9' || e.target.value[e.target.value.length-1]<'0'){
@@ -39,6 +39,12 @@ export const MagicInput = ({guess , player , online}) => {
         if (number.length == 4){
             setNumberOne(number)
             setShow(false)
+            socket.send(JSON.stringify({
+                'type':'other-player',
+                'number' : number,
+                'player':localPlayer,
+                'player-username' : playerOne,
+            }))
         }
     }
     const makeGuess = (e)=>{
@@ -62,21 +68,14 @@ export const MagicInput = ({guess , player , online}) => {
     const OnlineGuess = (e)=>{
         e.preventDefault()
         if(number.length == 4){
-            socket.send({
-                type:'make-guess',
-                number : number
-            })
-            if(numberTwo === number){
-                    setOfEndGame(true)
-                }
+            socket.send(JSON.stringify({
+                'type':'make-guess',
+                'guess' : number,
+                'player' : localPlayer
+            }))
             setPlayerOneGuess([...playerOneGuess , number])
             setTurn(turn == 1 ? 2 : 1)
         }
-        socket.send({
-            'type':'make_guess',
-            'player':player,
-            'guess' : number
-        })
     }
   return (
     <div>

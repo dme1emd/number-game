@@ -1,9 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext , useEffect} from 'react'
 import GameContext from './Context/GameContext'
+import OnlineGameContext from './Context/OnlineGameContext'
 import { Guess } from './Guess'
 import { MagicInput } from './MagicInput'
 export const MiddleGame = ({online}) => {
-    const { player,turn , setTurn , numberOne ,numberTwo,playerOneGuess , playerTwoGuess} = useContext(GameContext)
+    const {socket} = useContext(OnlineGameContext)
+    const { setPlayerTwoGuess,localPlayer,setPlayerTwo,turn, setTurn , numberOne ,numberTwo,playerOneGuess , playerTwoGuess} = useContext(GameContext)
     const compare =(string1 , string2)=>{
         var numbers = 0
         var positions = 0
@@ -19,7 +21,7 @@ export const MiddleGame = ({online}) => {
         return [numbers , positions]
     }
   return (
-    ((player ===1 &&numberOne) || (player===2 &&numberTwo)) ? 
+    ((numberTwo && numberOne)) ? 
     <div>
         {   !online ?
             turn == 1? 
@@ -27,7 +29,7 @@ export const MiddleGame = ({online}) => {
             :
             <MagicInput className = 'guess-input player-two' player={turn} guess={true} key='player-two-guess'/>
             :
-            turn != player ? //modify the operator != to === after being sure e.t work
+            turn === localPlayer ?
             <MagicInput online={true} guess={true}/>:
             ''
         }
