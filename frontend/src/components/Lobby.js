@@ -13,7 +13,7 @@ export const Lobby = () => {
     useEffect(()=>{getLobbyGames()},[])
   return (
     <div>
-        {lobbyGames.map((game)=><GameLoby game={game}/>)}
+        {lobbyGames.map((game)=><GameLoby game={game} key={game.id}/>)}
     </div>
   )
 }

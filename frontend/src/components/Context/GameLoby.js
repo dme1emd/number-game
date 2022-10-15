@@ -4,13 +4,13 @@ import GameContext from './GameContext'
 
 export const GameLoby = ({game}) => {
     const navigate = useNavigate('')
-    const {setPlayer} = useContext(GameContext)
+    const {setLocalPlayer} = useContext(GameContext)
   return (
     <div>
         <div>{game.name}</div>
         <button onClick={()=>{
             navigate(`/game/${game.id}`)
-            setPlayer(2)
+            setLocalPlayer(2)
             }}>join</button>
     </div>
   )
