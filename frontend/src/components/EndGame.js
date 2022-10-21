@@ -2,12 +2,11 @@ import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import GameContext from './Context/GameContext'
 
-export const EndGame = () => {
-    const {setPlayerOne , setPlayerTwo , setNumberOne ,setNumberTwo,setNumOneOk,setNumTwoOk,setPlayerOneGuess,setPlayerTwoGuess,setTurn,setOfEndGame} = useContext(GameContext)
+export const EndGame = ({online}) => {
+    const {setLocalPlayer,setPlayerOne ,localPlayer , setPlayerTwo , setNumberOne ,setNumberTwo,setNumOneOk,setNumTwoOk,setPlayerOneGuess,setPlayerTwoGuess,setTurn,setEndOfGame} = useContext(GameContext)
     const {turn , playerOne , playerTwo} = useContext(GameContext)
     const navigate =useNavigate()
-    const restartGame = ()=>{
-        navigate('/')
+    const refresh=()=>{
         setPlayerOne('')
         setPlayerTwo('')
         setNumberOne('')
@@ -16,30 +15,28 @@ export const EndGame = () => {
         setNumTwoOk(false)
         setPlayerOneGuess([])
         setPlayerTwoGuess([])
-        setTurn([])
-        setOfEndGame(false)
+        setTurn(1)
+        setEndOfGame(false)
+        setLocalPlayer(1)
+    }
+    const restartGame = ()=>{
+        navigate('/')
+        refresh()
         navigate('/game/')
     }
     const mainMenu = ()=>{
         navigate('/')
-        setPlayerOne('')
-        setPlayerTwo('')
-        setNumberOne('')
-        setNumberTwo('')
-        setNumOneOk(false)
-        setNumTwoOk(false)
-        setPlayerOneGuess([])
-        setPlayerTwoGuess([])
-        setTurn([])
-        setOfEndGame(false)
+        refresh()
+        if(online)
+        localStorage.removeItem('game')
     }
   return (
     <div className='end-game'>
         <div className='menu'>
             <div className='winner'>
-                {`${turn === 2 ? playerOne : playerTwo} wins the game`}
+                {`${online ? turn===localPlayer? playerOne : playerTwo:turn === 2 ? playerOne : playerTwo} wins the game`}
             </div>
-            <button onClick={restartGame}>replay</button>
+            {online ?'':<button onClick={restartGame}>replay</button>}
             <button onClick={mainMenu}>main menu</button>
         </div>
     </div>

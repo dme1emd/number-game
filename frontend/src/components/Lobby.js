@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { GameLoby } from './Context/GameLoby'
 import OnlineGameContext from './Context/OnlineGameContext'
@@ -10,6 +10,7 @@ export const Lobby = () => {
     const [roomName , setRoomName] = useState('')
     const [password , setPassword] = useState('')
     const [privateRoom , setPrivateRoom] = useState(false)
+    const [nav , setNav] = useState(false)
     const navigate = useNavigate()
     const getLobbyGames = async ()=>{
         const response = await fetch(`${domain}lobby/`)
@@ -32,15 +33,19 @@ export const Lobby = () => {
           "password": password
         })
       })
-      getLobbyGames()
+      await getLobbyGames()
+      setNav(true)
     }
     const handlePassword = (e)=>{
       setPassword(e.target.value)
     }
     useEffect(()=>{getLobbyGames()},[])
     useEffect(()=>{
-      navigate(`/game/${lobbyGames.filter((elem)=>elem.name==roomName)[0].id}`)
-    },[])
+      if(lobbyGames && nav) {
+        localStorage.setItem('game',lobbyGames.filter((elem)=>elem.name==roomName)[0].id)
+        navigate(`/game/${lobbyGames.filter((elem)=>elem.name==roomName)[0].id}`)
+      }
+    },[lobbyGames])
   return (
     <div className='lobby'>
         {

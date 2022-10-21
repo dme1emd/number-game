@@ -2,17 +2,28 @@ from cgitb import text
 from channels.generic.websocket import AsyncConsumer
 import json
 class GameConsumer(AsyncConsumer):
+    connections = 0
     async def websocket_connect(self, event):
-        await self.send({
-            "type": "websocket.accept",
-        })
-        await self.send({
-            "type": "websocket.send",
-            'text' : json.dumps({
-                'message':'connection established !'
-            })
-        })
+        print(self.connections)
         room_id = self.scope.get('url_route').get('kwargs').get('pk')
+        if self.connections <2 :
+            await self.send({
+                "type": "websocket.accept",
+            })
+            await self.send({
+                "type": "websocket.send",
+                'text' : json.dumps({
+                    'message':'connection established !'
+                })
+            })
+            self.connections +=1
+        else :
+            await self.send({
+                "type": "websocket.send",
+                'text' : json.dumps({
+                    'message':'there are already two members'
+                })
+            })
         self.chat_room = f"room-{room_id}"
         await self.channel_layer.group_add(
             self.chat_room,
