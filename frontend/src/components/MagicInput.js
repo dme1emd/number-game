@@ -6,7 +6,7 @@ export const MagicInput = ({guess , player , online}) => {
     const [number , setNumber] = useState('')
     const [message , setMessage] = useState(false)
     const [showOnline , setShowOnline] = useState(true)
-    const {localPlayer,setShow,numberOne , numberTwo, setOfEndGame,setNumberOne ,setNumberTwo , setNumOneOk,setNumTwoOk,setPlayerOneGuess , setPlayerTwoGuess ,playerOneGuess,playerTwoGuess,turn,setTurn , playerOne ,playerTwo}= useContext(GameContext)
+    const {localPlayer,setShow,numberOne , numberTwo, setEndOfGame,setNumberOne ,setNumberTwo , setNumOneOk,setNumTwoOk,setPlayerOneGuess , setPlayerTwoGuess ,playerOneGuess,playerTwoGuess,turn,setTurn , playerOne ,playerTwo}= useContext(GameContext)
     const {socket} = useContext(OnlineGameContext)
     const handleChange = (e)=>{
         if(e.target.value[e.target.value.length-1]>'9' || e.target.value[e.target.value.length-1]<'0'){
@@ -38,12 +38,11 @@ export const MagicInput = ({guess , player , online}) => {
         }
         if (number.length == 4){
             setNumberOne(number)
-            setShow(false)
             socket.send(JSON.stringify({
                 'type':'other-player',
                 'number' : number,
                 'player':localPlayer,
-                'player-username' : playerOne,
+                'player_username' : playerOne,
             }))
         }
     }
@@ -52,13 +51,13 @@ export const MagicInput = ({guess , player , online}) => {
         if(number.length == 4){
             if(player == 1){
                 if(numberTwo === number){
-                    setOfEndGame(true)
+                    setEndOfGame(true)
                 }
                 setPlayerOneGuess([...playerOneGuess , number])
                 setTurn(2)
             }else{
                 if(numberOne === number){
-                    setOfEndGame(true)
+                    setEndOfGame(true)
                 }
                 setPlayerTwoGuess([...playerTwoGuess ,number])
                 setTurn(1)
@@ -73,6 +72,10 @@ export const MagicInput = ({guess , player , online}) => {
                 'guess' : number,
                 'player' : localPlayer
             }))
+            if(number == numberTwo){
+                setEndOfGame(true)
+                return
+            }
             setPlayerOneGuess([...playerOneGuess , number])
             setTurn(turn == 1 ? 2 : 1)
         }
