@@ -8,9 +8,13 @@ export const MainMenu = () => {
     const rules = ()=>{
         navigate('/rules/')
     }
+    const onlineGame = ()=>{
+      navigate('/lobby/')
+  }
   return (
     <div className='main-menu'>
         <button onClick={startGame}>start a game</button>
+        <button onClick={onlineGame}>play online</button>
         <button onClick={rules}>rules</button>
     </div>
   )

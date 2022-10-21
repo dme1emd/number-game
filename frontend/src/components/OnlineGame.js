@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import GameContext from './Context/GameContext'
 import OnlineGameContext from './Context/OnlineGameContext'
+import { EndGame } from './EndGame'
 import { GameBegining } from './GameBegining'
 import { MagicInput } from './MagicInput'
 import { MiddleGame } from './MiddleGame'
@@ -11,11 +12,13 @@ export const OnlineGame = () => {
   const {socket , setSocket} = useContext(OnlineGameContext)
   if(endOfGame) socket.close()
   useEffect(()=>{
-    setSocket(new WebSocket(`ws://127.0.0.1:8000/game/${game_id}/`))
+    if(localStorage.getItem('game') == game_id)
+    setSocket(new WebSocket(`ws://127.0.0.1:8000/game/${game_id}/`))    
   },[])
   if(socket)
   socket.onmessage = (e)=>{
       const data = JSON.parse(e.data)
+      console.log(e)
       if(data.type == 'make-guess'){
           if(data.guess == numberOne){
             setEndOfGame(true)
@@ -34,13 +37,16 @@ export const OnlineGame = () => {
     console.log('your number ' , numberOne , '\n opponnent number ',numberTwo)
   },[numberOne , numberTwo])
   return (
+    localStorage.getItem('game') == game_id?
     <div>
       {!numberOne || !numberTwo ?<GameBegining online={true}/>:''}
       {
         !endOfGame ? <MiddleGame online={true}/>
         :
-        `${turn == localPlayer ? playerOne : playerTwo} wins the game`
+        <EndGame online={true}/>
       }
     </div>
+    :
+    'this game is not available'
   )
 }
