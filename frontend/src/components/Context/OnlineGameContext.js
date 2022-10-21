@@ -4,7 +4,7 @@ const OnlineGameContext = createContext()
 export default OnlineGameContext
 export const OnlineGameProvider = ({children}) => {
     const [socket,setSocket] = useState()
-    const [domain , setDomain] = useState('http://127.0.0.1:8000/api/')
+    const [domain , setDomain] = useState('http://0.0.0.0:8000/api/')
   return (
     <OnlineGameContext.Provider value={{
         socket,

@@ -13,7 +13,7 @@ export const GameProvider = ({children}) => {
     const [playerTwoGuess , setPlayerTwoGuess] = useState([])
     const [turn , setTurn] = useState(1)
     const [show , setShow] = useState(true)
-    const [endOfGame , setOfEndGame] = useState(false)
+    const [endOfGame , setEndOfGame] = useState(false)
   return (
     <GameContext.Provider value={{
         playerOne ,
@@ -35,7 +35,7 @@ export const GameProvider = ({children}) => {
         turn,
         setTurn , 
         endOfGame , 
-        setOfEndGame,
+        setEndOfGame,
         localPlayer,
         setLocalPlayer,
         show,
