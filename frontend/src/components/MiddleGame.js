@@ -5,7 +5,7 @@ import { Guess } from './Guess'
 import { MagicInput } from './MagicInput'
 export const MiddleGame = ({online}) => {
     const {socket} = useContext(OnlineGameContext)
-    const { setPlayerTwoGuess,localPlayer,setPlayerTwo,turn, setTurn , numberOne ,numberTwo,playerOneGuess , playerTwoGuess} = useContext(GameContext)
+    const { playerOne,localPlayer,playerTwo,turn , numberOne ,numberTwo,playerOneGuess , playerTwoGuess} = useContext(GameContext)
     const compare =(string1 , string2)=>{
         var numbers = 0
         var positions = 0
@@ -35,6 +35,7 @@ export const MiddleGame = ({online}) => {
         }
         <div className='guesses-container'>
             <ul className='player-guess player-one'>
+                <div>{playerOne}</div>
                 {playerOneGuess.length ? playerOneGuess.map(
                     (guess , index)=>{
                         return(
@@ -45,6 +46,7 @@ export const MiddleGame = ({online}) => {
             </ul>
             <div className='separator'></div>
             <ul className='player-guess player-two'>
+                <div>{playerTwo}</div>
                 {playerTwoGuess.length> 0? playerTwoGuess.map(
                     (guess , index)=>{
                         return(

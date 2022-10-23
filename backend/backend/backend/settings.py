@@ -42,9 +42,8 @@ INSTALLED_APPS = [
     'lobby',
     'api',
     'rest_framework',
-        "corsheaders",
+    "corsheaders",
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

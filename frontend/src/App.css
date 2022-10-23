@@ -36,6 +36,7 @@ form button{
   background-color: transparent;
   border: 1px black solid;
   margin: 10px 0;
+  align-self:center;
 }
 .pseudo-input{
   max-width: 200px;
@@ -78,7 +79,7 @@ form button{
   height: 50vh;
   width: 30vw;
   align-items: center;
-  margin:15vh 35vw;
+  margin:15vh 30vw;
   padding:50px;
   border:1px black solid;
 }
@@ -90,12 +91,12 @@ form button{
   width: 40vw;
   max-width: 200px;
   justify-content: center;
-  margin: 10px 0;
+  margin: 20px 0;
 }
 .rules-container{
   width: 60vw;
-  height: 60vh;
-  margin:20vh 20vw;
+  height: 70vh;
+  margin:10vh 20vw;
 }
 .rules-container{
   border: 1px black solid;
@@ -143,12 +144,29 @@ form button{
   display: flex;
   flex-direction: column;
   justify-content:flex-start;
-  align-items: flex-start;
+  align-items:flex-start;
 }
 .lobby form input{
-  margin:12px 2px;
+  margin:15px 2px;
 }
 .lobby form button:first-child{
   border: none;
   padding: 0;
+}
+.lobby input[type=search]{
+  padding: 10px;
+  font-size:1.1em;
+  width: 250px;
+  margin: 10px calc(50vw - 125px);
+}
+.message{
+  font-size: 1.1em;
+  width: 300px;
+  text-align: center;
+  margin:calc(50vw-150px);
+}
+.error-msg{
+  color: red;
+  font-size: .5em;
+  align-self: center;
 }

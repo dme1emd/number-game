@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
+import GameContext from './Context/GameContext'
 export const MainMenu = () => {
+    const {refresh}=useContext(GameContext)
     const navigate = useNavigate()
     const startGame = ()=>{
         navigate('/game/')
@@ -11,6 +13,7 @@ export const MainMenu = () => {
     const onlineGame = ()=>{
       navigate('/lobby/')
   }
+  useEffect(()=>{refresh()},[])
   return (
     <div className='main-menu'>
         <button onClick={startGame}>start a game</button>
