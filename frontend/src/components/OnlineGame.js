@@ -4,10 +4,9 @@ import GameContext from './Context/GameContext'
 import OnlineGameContext from './Context/OnlineGameContext'
 import { EndGame } from './EndGame'
 import { GameBegining } from './GameBegining'
-import { MagicInput } from './MagicInput'
 import { MiddleGame } from './MiddleGame'
 export const OnlineGame = () => {
-  const {endOfGame, turn,playerTwo , playerOne,setEndOfGame, numberOne , numberTwo , setNumberTwo, setTurn,localPlayer,setPlayerTwo, playerTwoGuess ,setPlayerTwoGuess } = useContext(GameContext)
+  const {setMessageQuit,endOfGame, setNumPlayer,numPlayer ,setEndOfGame, numberOne , numberTwo , setNumberTwo, setTurn,localPlayer,setPlayerTwo, playerTwoGuess ,setPlayerTwoGuess } = useContext(GameContext)
   const {game_id} = useParams()
   const {socket , setSocket} = useContext(OnlineGameContext)
   if(endOfGame) socket.close()
@@ -18,7 +17,9 @@ export const OnlineGame = () => {
   if(socket)
   socket.onmessage = (e)=>{
       const data = JSON.parse(e.data)
-      console.log(e)
+      console.log(data)
+      if(data.type == 'room_join')
+      setNumPlayer(numPlayer+1)
       if(data.type == 'make-guess'){
           if(data.guess == numberOne){
             setEndOfGame(true)
@@ -31,7 +32,13 @@ export const OnlineGame = () => {
       if(data.type == 'other-player' && localPlayer != data.player){
         setPlayerTwo(data.player_username)
         setNumberTwo(data.number)
-    }
+      }
+      if(data.type == 'disconnect')
+      {
+        setMessageQuit('your opponent left the game')
+        setTurn(localPlayer)
+        setEndOfGame(true)
+      }
   }
   useEffect(()=>{
     console.log('your number ' , numberOne , '\n opponnent number ',numberTwo)

@@ -83,7 +83,7 @@ export const MagicInput = ({guess , player , online}) => {
   return (
     <div>
         <form>
-            <input type='text' className='input-guess' onChange={handleChange} value={number} placeholder={`${guess ? `${turn == 1 ? playerOne : playerTwo}` : 'chose a number'}`}/>
+            <input type='text' className='input-guess' onChange={handleChange} value={number} placeholder={`${guess ? !online ?`${turn == 1 ? playerOne : playerTwo}`:`${turn === localPlayer ? playerOne : playerTwo}`: 'chose a number'}`}/>
             <button onClick={guess ?online? OnlineGuess:makeGuess:confirm}>
                 confirm !
             </button>

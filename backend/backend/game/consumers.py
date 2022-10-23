@@ -2,33 +2,25 @@ from cgitb import text
 from channels.generic.websocket import AsyncConsumer
 import json
 class GameConsumer(AsyncConsumer):
-    connections = 0
     async def websocket_connect(self, event):
-        print(self.connections)
         room_id = self.scope.get('url_route').get('kwargs').get('pk')
-        if self.connections <2 :
-            await self.send({
+        await self.send({
                 "type": "websocket.accept",
-            })
-            await self.send({
-                "type": "websocket.send",
-                'text' : json.dumps({
-                    'message':'connection established !'
-                })
-            })
-            self.connections +=1
-        else :
-            await self.send({
-                "type": "websocket.send",
-                'text' : json.dumps({
-                    'message':'there are already two members'
-                })
             })
         self.chat_room = f"room-{room_id}"
         await self.channel_layer.group_add(
             self.chat_room,
             self.channel_name
         )
+        await self.channel_layer.group_send(
+            self.chat_room,
+            {
+                "type": "join_room",
+                'text':json.dumps({
+                    'text':'someone joined the room',
+                    'type':'room_join'
+                })
+            })
     async def websocket_receive(self, event):
         try :
             data = json.loads(event['text'])
@@ -64,6 +56,15 @@ class GameConsumer(AsyncConsumer):
                     })
         except :
             pass
+    async def websocket_disconnect(self , event):
+        await self.channel_layer.group_send(
+            self.chat_room,
+            {
+                "type": "disconnect",
+                'text':json.dumps({
+                    'type' : 'disconnect'
+                })
+            })
     async def make_guess(self , event) :
         await self.send(
             {
@@ -79,6 +80,20 @@ class GameConsumer(AsyncConsumer):
             }
         )
     async def other_player(self , event) :
+            await self.send(
+            {
+            'type':'websocket.send' , 
+            'text' : event['text']
+            }
+        )
+    async def join_room(self , event) :
+            await self.send(
+            {
+            'type':'websocket.send' , 
+            'text' : event['text']
+            }
+        )
+    async def disconnect(self , event) :
             await self.send(
             {
             'type':'websocket.send' , 

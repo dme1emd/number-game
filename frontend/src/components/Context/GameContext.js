@@ -3,6 +3,7 @@ const GameContext = createContext()
 export default GameContext
 export const GameProvider = ({children}) => {
     const [localPlayer , setLocalPlayer] =useState(1)
+    const [numPlayer , setNumPlayer] =useState(0)
     const [playerOne , setPlayerOne] = useState('')
     const [playerTwo , setPlayerTwo] = useState('')
     const [numberOne , setNumberOne] = useState('')
@@ -14,8 +15,26 @@ export const GameProvider = ({children}) => {
     const [turn , setTurn] = useState(1)
     const [show , setShow] = useState(true)
     const [endOfGame , setEndOfGame] = useState(false)
+    const [messageQuit , setMessageQuit] = useState(false)
+    const refresh=()=>{
+      setPlayerOne('')
+      setPlayerTwo('')
+      setNumberOne('')
+      setNumberTwo('')
+      setNumOneOk(false)
+      setNumTwoOk(false)
+      setPlayerOneGuess([])
+      setPlayerTwoGuess([])
+      setTurn(1)
+      setEndOfGame(false)
+      setLocalPlayer(1)
+      setNumPlayer(0)
+      setMessageQuit('')
+  }
   return (
     <GameContext.Provider value={{
+      messageQuit,
+      setMessageQuit,
         playerOne ,
         setPlayerOne ,
         playerTwo ,
@@ -39,7 +58,10 @@ export const GameProvider = ({children}) => {
         localPlayer,
         setLocalPlayer,
         show,
-        setShow
+        setShow,
+        numPlayer,
+        setNumPlayer,
+        refresh
     }}>
         {children}
     </GameContext.Provider>
